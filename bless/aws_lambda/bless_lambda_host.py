@@ -18,7 +18,7 @@ from marshmallow import ValidationError
 
 def lambda_handler_host(
         event, context=None, ca_private_key_password=None,
-        entropy_check=False,
+        entropy_check=True,
         config_file=None):
     """
     This is the function that will be called when the lambda function starts.
