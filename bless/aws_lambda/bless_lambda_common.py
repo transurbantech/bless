@@ -58,7 +58,7 @@ def check_entropy(config, logger):
             response = kms_client.generate_random(
                 NumberOfBytes=random_seed_bytes)
             random_seed = response['Plaintext']
-            with open('/dev/urandom', 'w') as urandom:
+            with open('/dev/urandom', 'wb') as urandom:
                 urandom.write(random_seed)
 
 
