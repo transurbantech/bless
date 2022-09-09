@@ -10,7 +10,6 @@ from bless.config.bless_config import BlessConfig, \
     ENTROPY_MINIMUM_BITS_OPTION, \
     RANDOM_SEED_BYTES_OPTION, \
     CERTIFICATE_VALIDITY_SEC_DEFAULT, \
-    ENTROPY_MINIMUM_BITS_DEFAULT, \
     RANDOM_SEED_BYTES_DEFAULT, \
     LOGGING_LEVEL_DEFAULT, \
     LOGGING_LEVEL_OPTION, \
@@ -182,7 +181,7 @@ def test_config_environment_override(monkeypatch):
     [
         ((os.path.join(os.path.dirname(__file__), 'minimal.cfg')), 'us-west-2',
          CERTIFICATE_VALIDITY_SEC_DEFAULT,
-         ENTROPY_MINIMUM_BITS_DEFAULT, RANDOM_SEED_BYTES_DEFAULT,
+         RANDOM_SEED_BYTES_DEFAULT,
          SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_DEFAULT,
          SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_DEFAULT,
          LOGGING_LEVEL_DEFAULT,

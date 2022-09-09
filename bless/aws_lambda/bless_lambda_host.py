@@ -5,7 +5,7 @@
 """
 import time
 
-from bless.aws_lambda.bless_lambda_common import success_response, error_response, set_logger, check_entropy, \
+from bless.aws_lambda.bless_lambda_common import success_response, error_response, set_logger, seed_entropy, \
     setup_lambda_cache
 from bless.config.bless_config import BLESS_OPTIONS_SECTION, SERVER_CERTIFICATE_VALIDITY_BEFORE_SEC_OPTION, \
     SERVER_CERTIFICATE_VALIDITY_AFTER_SEC_OPTION, HOSTNAME_VALIDATION_OPTION
@@ -18,7 +18,7 @@ from marshmallow import ValidationError
 
 def lambda_handler_host(
         event, context=None, ca_private_key_password=None,
-        entropy_check=True,
+        entropy_seeding=True,
         config_file=None):
     """
     This is the function that will be called when the lambda function starts.
@@ -27,7 +27,7 @@ def lambda_handler_host(
     http://docs.aws.amazon.com/lambda/latest/dg/python-context-object.html
     :param ca_private_key_password: For local testing, if the password is provided, skip the KMS
     decrypt.
-    :param entropy_check: For local testing, if set to false, it will skip checking entropy and
+    :param entropy_seeding: For local testing, if set to false, it will skip checking entropy and
     won't try to fetch additional random from KMS.
     :param config_file: The config file to load the SSH CA private key from, and additional settings.
     :return: the SSH Certificate that can be written to id_rsa-cert.pub or similar file.
@@ -66,8 +66,8 @@ def lambda_handler_host(
         ca_private_key_password = bless_cache.ca_private_key_password
 
     # if running as a Lambda, we can check the entropy pool and seed it with KMS if desired
-    if entropy_check:
-        check_entropy(config, logger)
+    if entropy_seeding:
+        seed_entropy(config, logger)
 
     # cert values determined only by lambda and its configs
     current_time = int(time.time())
